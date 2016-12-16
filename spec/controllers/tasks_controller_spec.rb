@@ -28,13 +28,9 @@ RSpec.describe TasksController, type: :controller do
 
       expect(response.body).to eq(expected_response.to_json)
     end
-
-    $level[:tasks_index] = true
   end
 
   describe 'POST /tasks' do
-    skip if not $level[:tasks_index]
-
     it 'renders newly created task in JSON' do
       post :create, params: {
         task: {
@@ -53,13 +49,9 @@ RSpec.describe TasksController, type: :controller do
         }
       }.to_json)
     end
-
-    $level[:tasks_create] = true
   end
 
   describe 'DELETE /tasks/:id' do
-    skip if not $level[:tasks_create]
-
     it 'renders success status' do
       task = Task.create(content: 'Task Example')
 
@@ -68,13 +60,9 @@ RSpec.describe TasksController, type: :controller do
       expect(Task.count).to eq(0)
       expect(response.body).to eq({ success: true }.to_json)
     end
-
-    $level[:tasks_destroy] = true
   end
 
   describe 'PUT /tasks/:id/mark_complete' do
-    skip if not $level[:tasks_destroy]
-
     it 'renders modified task' do
       task = Task.create(content: 'Task Example')
 
@@ -93,13 +81,9 @@ RSpec.describe TasksController, type: :controller do
         }
       }.to_json)
     end
-
-    $level[:tasks_mark_complete] = true
   end
 
   describe 'PUT /tasks/:id/mark_active' do
-    skip if not $level[:tasks_mark_complete]
-
     it 'renders modified task' do
       task = Task.create(content: 'Task Example', completed: true)
 
@@ -118,7 +102,5 @@ RSpec.describe TasksController, type: :controller do
         }
       }.to_json)
     end
-
-    $level[:tasks_mark_active] = true
   end
 end

@@ -1,20 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe Task, type: :model do
+RSpec.describe 'Task', type: :model do
   describe '.new' do
     it 'should not return an error' do
       expect {
         Task.new
       }.not_to raise_error
-
     end
-
-    $level[:task_new] = true
   end
 
   describe 'attributes' do
-    skip if not $level[:task_new]
-
     it "should include 'content'" do
       task = Task.new
 
@@ -30,13 +25,9 @@ RSpec.describe Task, type: :model do
         task.completed
       }.not_to raise_error
     end
-
-    $level[:task_attributes] = true
   end
 
   describe '.create' do
-    skip if not $level[:task_attributes]
-
     it "requires the presence of 'content'" do
       expect {
         Task.create!(content: nil)
@@ -50,7 +41,5 @@ RSpec.describe Task, type: :model do
         Task.create!(content: 'a' * 201)
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
-
-    $level[:task_validations] = true
   end
 end
