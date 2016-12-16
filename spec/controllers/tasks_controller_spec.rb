@@ -33,6 +33,8 @@ RSpec.describe TasksController, type: :controller do
   end
 
   describe 'POST /tasks' do
+    skip if not $level[:tasks_index]
+
     it 'renders newly created task in JSON' do
       post :create, params: {
         task: {
@@ -51,17 +53,72 @@ RSpec.describe TasksController, type: :controller do
         }
       }.to_json)
     end
+
+    $level[:tasks_create] = true
   end
 
-  describe 'DELETE /tasks' do
-    it 'renders 204 no content' do
+  describe 'DELETE /tasks/:id' do
+    skip if not $level[:tasks_create]
+
+    it 'renders success status' do
       task = Task.create(content: 'Task Example')
 
       delete :destroy, params: { id: task.id }
 
       expect(Task.count).to eq(0)
-
       expect(response.body).to eq({ success: true }.to_json)
     end
+
+    $level[:tasks_destroy] = true
+  end
+
+  describe 'PUT /tasks/:id/mark_complete' do
+    skip if not $level[:tasks_destroy]
+
+    it 'renders modified task' do
+      task = Task.create(content: 'Task Example')
+
+      put :mark_complete, params: { id: task.id }
+
+      expect(Task.where(completed: true).count).to eq(1)
+
+      task.reload
+      expect(response.body).to eq({
+        task: {
+          id: task.id,
+          content: task.content,
+          completed: true,
+          created_at: task.created_at,
+          updated_at: task.updated_at
+        }
+      }.to_json)
+    end
+
+    $level[:tasks_mark_complete] = true
+  end
+
+  describe 'PUT /tasks/:id/mark_active' do
+    skip if not $level[:tasks_mark_complete]
+
+    it 'renders modified task' do
+      task = Task.create(content: 'Task Example', completed: true)
+
+      put :mark_active, params: { id: task.id }
+
+      expect(Task.where(completed: false).count).to eq(1)
+
+      task.reload
+      expect(response.body).to eq({
+        task: {
+          id: task.id,
+          content: task.content,
+          completed: false,
+          created_at: task.created_at,
+          updated_at: task.updated_at
+        }
+      }.to_json)
+    end
+
+    $level[:tasks_mark_active] = true
   end
 end
