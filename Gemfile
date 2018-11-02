@@ -31,7 +31,7 @@ group :development, :test do
 
   gem 'awesome_print'
   gem 'dotenv-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails', '~> 4.11'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.7.2'
 
