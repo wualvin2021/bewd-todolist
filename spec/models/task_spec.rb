@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Task', type: :model do
   describe '.new' do
-    it 'should not return an error' do
+    it 'does not return an error' do
       expect {
         Task.new
       }.not_to raise_error
@@ -10,7 +10,7 @@ RSpec.describe 'Task', type: :model do
   end
 
   describe 'attributes' do
-    it "should include 'content'" do
+    it "includes 'content'" do
       task = Task.new
 
       expect {
@@ -18,7 +18,7 @@ RSpec.describe 'Task', type: :model do
       }.not_to raise_error
     end
 
-    it "should include 'completed'" do
+    it "includes 'completed'" do
       task = Task.new
 
       expect {
@@ -35,8 +35,6 @@ RSpec.describe 'Task', type: :model do
     end
 
     it "'content' should have max 200 chars" do
-      task = Task.new
-
       expect {
         Task.create!(content: 'a' * 201)
       }.to raise_error(ActiveRecord::RecordInvalid)
