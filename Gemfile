@@ -48,8 +48,7 @@ group :development, :test do
   gem 'byebug', '~> 11.1.3', platforms: %i[mri mingw x64_mingw]
 
   # Use sqlite3 as the database in development and test environment
-  gem 'sqlite3'
-
+  gem 'sqlite3', '~> 1.4'
   # Added by Altcademy.com
   gem 'awesome_print', '~> 1.9'
   gem 'dotenv-rails', '~> 2.8'
